@@ -363,10 +363,18 @@ describe('leads-cm', () => {
     running.child.kill('SIGINT');
     const result = await running.result;
 
-    expect(result.code).toBe(130);
+    // Windows child.kill() hard-terminates instead of delivering a console Ctrl+C event.
+    // The cross-platform AbortController cleanup path is covered by export-datasets.test.ts.
+    if (process.platform === 'win32') {
+      expect(result.code).toBeNull();
+    } else {
+      expect(result.code).toBe(130);
+    }
     expect(await readFile(join(directory, 'dataset-1.csv'), 'utf8')).toContain('Ada Example');
     await expect(readFile(join(directory, 'dataset-2.csv'), 'utf8')).rejects.toMatchObject({ code: 'ENOENT' });
-    expect((await readdir(directory)).filter((name) => name.endsWith('.tmp'))).toEqual([]);
+    if (process.platform !== 'win32') {
+      expect((await readdir(directory)).filter((name) => name.endsWith('.tmp'))).toEqual([]);
+    }
   });
 
   test('uses stable exit codes for validation, access, network, partial output, and schema failures', async () => {
