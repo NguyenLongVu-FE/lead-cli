@@ -39,6 +39,7 @@ Version 1 includes:
 - NDJSON output by default and streaming CSV output on request.
 - A small TypeScript library used by the CLI and available through the package root export.
 - A setup probe, stable exit codes, shell completions, and agent-readable help.
+- An MIT license, matching the reference CLI.
 
 Version 1 does not include:
 
@@ -106,7 +107,7 @@ The CLI supports these filters:
 - Required fields such as email, phone, LinkedIn, website, or company phone.
 - Email status when the source file contains that field.
 
-All include and exclude flags are repeatable. Values are not split on commas because valid industries and phrases may contain commas. Exact title and keyword matching use separate `--title-include-exact`, `--title-exclude-exact`, `--keyword-include-exact`, and `--keyword-exclude-exact` flags. Company size uses repeatable `--company-size`; revenue uses `--revenue-min` and `--revenue-max`; location uses repeatable `--state` and `--city`; required fields use repeatable `--require`; status uses repeatable `--status`.
+All include and exclude flags are repeatable. Values are not split on commas because valid industries and phrases may contain commas. Exact title and keyword matching use separate `--title-include-exact`, `--title-exclude-exact`, `--keyword-include-exact`, and `--keyword-exclude-exact` flags. Company size uses repeatable `--company-size`; revenue uses `--revenue-min` and `--revenue-max`; location uses repeatable `--state` and `--city`; status uses repeatable `--status`. `--require` and `--fields` accept either repeated flags or comma-separated field names because field names cannot contain commas.
 
 Repeated values inside one include category use OR. Different filter categories use AND. Any matching exclude value rejects the row.
 
